@@ -50,16 +50,16 @@ html[lang="ko"] .hero h1{line-height:1.05;letter-spacing:-.01em}
 .hero .name{display:table;font-family:var(--head);background:var(--black);color:var(--white);padding:0 12px;margin-bottom:16px;font-size:clamp(28px,4.2vw,56px)}
 .hero .lead{max-width:640px;margin:40px 0 0;font-size:18px;line-height:1.55}
 .hero .side{display:flex;flex-direction:column}
-.hero .side div{flex:1;border-bottom:var(--thick);padding:20px 16px;display:flex;flex-direction:column;justify-content:flex-end}
-.hero .side div:last-child{border-bottom:0;background:var(--black);color:var(--white)}
+.hero .side a{color:inherit;text-decoration:none;flex:1;border-bottom:var(--thick);padding:20px 16px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero .side a:last-child{border-bottom:0;background:var(--black);color:var(--white)}
 .hero .side b{font:400 clamp(22px,2.6vw,34px)/1 var(--head)}
 .hero .side span{font:400 12px/1.4 var(--mono);text-transform:uppercase;letter-spacing:1px;margin-top:8px}
 @media (max-width:860px){
   .hero{grid-template-columns:1fr}
   .hero .main{border-right:0;border-bottom:var(--thick);padding:40px 16px 32px}
   .hero .side{display:grid;grid-template-columns:1fr 1fr}
-  .hero .side div{border-right:var(--thick)}
-  .hero .side div:nth-child(2n){border-right:0}
+  .hero .side a{color:inherit;text-decoration:none;border-right:var(--thick)}
+  .hero .side a:nth-child(2n){border-right:0}
 }
 
 /* ---------- section heads ---------- */
@@ -124,6 +124,20 @@ html[lang="ko"] .hero h1{line-height:1.05;letter-spacing:-.01em}
 @media (max-width:600px){.contact li{grid-template-columns:1fr}.contact li span{border-right:0;border-bottom:1px solid #333;padding:14px 16px}}
 
 footer{background:var(--black);color:var(--white);font:400 12px/1 var(--mono);padding:24px 16px 40px;letter-spacing:1px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+.hero .side a:hover{background:var(--black);color:var(--white)}
+.hero .side a:last-child:hover{background:var(--white);color:var(--black)}
+.hero .side a span{font-size:13px}
+.status.wip{color:var(--warn);border-color:var(--warn)}
+.proj .hook{font:600 19px/1.4 var(--body);margin:0 0 24px;padding-left:12px;border-left:5px solid var(--black)}
+dl.pas{margin:0;border-top:var(--thick)}
+dl.pas dt{font:700 12px/1 var(--mono);letter-spacing:2px;text-transform:uppercase;padding:14px 0 6px}
+dl.pas dd{margin:0;padding:0 0 14px;border-bottom:var(--thin);font-size:15px}
+dl.pas dd:last-of-type{border-bottom:0}
+ol.steps{list-style:none;margin:8px 0 0;padding:0;border:var(--thick)}
+ol.steps li{padding:14px 16px;border-bottom:var(--thin);font-size:15px}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li > b{display:block;font:400 18px/1.2 var(--head);margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -145,140 +159,176 @@ footer{background:var(--black);color:var(--white);font:400 12px/1 var(--mono);pa
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="main">
-      <div class="tag"><span lang="ko">휴머노이드 · 강화학습 · 동작 모방</span><span lang="en">Humanoid / RL / Motion imitation</span></div>
+      <div class="tag"><span lang="ko">휴머노이드 · 강화학습 · 실기 배포</span><span lang="en">Humanoid / RL / Sim-to-real</span></div>
       <div class="name">[<span lang="ko">이름</span><span lang="en">NAME</span>]</div>
       <h1>
         <span lang="ko">사람의 움직임을<br>로봇에게<br>가르칩니다</span>
         <span lang="en">Teaching<br>humanoids<br>to move</span>
       </h1>
       <p class="lead">
-        <span lang="ko">휴머노이드 로봇 K1으로 옆돌기·태권도 품새·박스 점프 같은 동작을 시뮬레이션에서 학습하고 실제 로봇으로 옮깁니다. 영상 속 사람의 동작을 로봇 동작으로 바꾸는 단계부터, 학습한 정책을 로봇에 배포하는 단계까지 다룹니다.</span>
-        <span lang="en">I train dynamic skills such as cartwheels, taekwondo forms and box jumps for the ROBOTIS K1 humanoid in simulation and move them onto the real robot, covering the whole path from human video to deployed policy.</span>
+        <span lang="ko">휴머노이드 로봇 K1이 사람처럼 움직이도록 시뮬레이션에서 학습하고, 실제 로봇에서 동작시킵니다. 영상 속 동작을 따라 하는 정책, 카메라로 보고 뛰어오르는 정책, 여러 동작을 하나로 묶은 정책, 그리고 무엇이든 따라 하는 범용 제어기 위의 원격조종과 VLA까지 다룹니다.</span>
+        <span lang="en">I train the ROBOTIS K1 humanoid in simulation and make it work on the real robot: policies that imitate human video, jump using a depth camera, combine many skills in one network, and a general-purpose controller with teleoperation and a VLA on top.</span>
       </p>
     </div>
-    <div class="side">
-      <div><b>K1</b><span lang="ko">휴머노이드 플랫폼</span><span lang="en">Humanoid platform</span></div>
-      <div><b>SIM→REAL</b><span lang="ko">시뮬레이션 학습 후 실기 배포</span><span lang="en">Simulation to hardware</span></div>
-      <div><b>VIDEO→ROBOT</b><span lang="ko">영상에서 로봇 동작으로</span><span lang="en">Human video to robot motion</span></div>
-      <div><b>05</b><span lang="ko">프로젝트 분야</span><span lang="en">Project areas</span></div>
-    </div>
+    <nav class="side" aria-label="Projects">
+      <a href="#p1"><b>01</b><span lang="ko">영상·모캡 → 동작 모방</span><span lang="en">Video &amp; mocap imitation</span></a>
+      <a href="#p2"><b>02</b><span lang="ko">깊이 카메라 박스 점프</span><span lang="en">Depth-camera box jump</span></a>
+      <a href="#p3"><b>03</b><span lang="ko">통합 폴리시</span><span lang="en">Unified policy</span></a>
+      <a href="#p4"><b>04</b><span lang="ko">SONIC 범용 제어 → 텔레옵 → VLA</span><span lang="en">SONIC → teleop → VLA</span></a>
+    </nav>
   </section>
 
   <!-- ===== ABOUT ===== -->
   <section class="sec" id="about">
-    <div class="sec-head"><div class="n">01</div><h2><span lang="ko">소개</span><span lang="en">About</span></h2></div>
+    <div class="sec-head"><div class="n">A</div><h2><span lang="ko">소개</span><span lang="en">About</span></h2></div>
     <div class="about">
       <div class="text">
         <p class="role">[<span lang="ko">직함 · 소속</span><span lang="en">Title · Affiliation</span>]</p>
-        <p lang="ko">사람이 하는 동작을 휴머노이드 로봇이 그대로 해낼 수 있도록, 동작 데이터 준비 → 강화학습 → 실기 배포까지 전 과정을 직접 다룹니다.</p>
-        <p lang="ko">보상 설계, 모터 토크 한계와 지연 같은 실제 하드웨어 특성을 시뮬레이션에 반영하는 일, 학습된 정책을 로봇 런타임(C++)에 올려 실제로 움직이게 하는 일을 주로 합니다.</p>
-        <p lang="en">I work end to end on making humanoids reproduce human motion: preparing motion data, training policies with reinforcement learning, and deploying them on hardware.</p>
-        <p lang="en">My focus is reward design, modelling real actuator limits and latency in simulation, and porting trained policies to the robot's C++ runtime.</p>
+        <p lang="ko">동작 데이터 준비 → 강화학습 → 실제 로봇 배포까지 전 과정을 직접 다룹니다. 시뮬레이션에서 잘 되는 것으로 끝내지 않고, 로봇에서 실패한 원인을 기록으로 찾아 다시 학습에 반영합니다.</p>
+        <p lang="ko">모든 프로젝트에 공통으로 들어간 일: 실측 모터 토크표와 토크 한계 반영, 제어 지연·IMU 오차 무작위화, 학습된 정책의 로봇 C++ 런타임 이식, 실기 기록(rosbag)과 시뮬레이션 비교 분석.</p>
+        <p lang="en">I own the whole path from motion data to reinforcement learning to deployment on hardware. When something fails on the robot, I trace the cause in the logs and feed it back into training.</p>
+        <p lang="en">Common to every project: measured motor torque tables and saturation limits, control latency and IMU bias randomization, porting policies to the robot's C++ runtime, and comparing hardware logs against simulation.</p>
       </div>
       <div class="stack">
         <h4><span lang="ko">학습 · 시뮬레이션</span><span lang="en">Learning · Simulation</span></h4>
-        <ul class="chips"><li>PPO / rsl_rl</li><li>Motion imitation</li><li>Teacher–student</li><li>Isaac Lab</li><li>Newton</li><li>MuJoCo / mjlab</li></ul>
+        <ul class="chips"><li>PPO / rsl_rl</li><li>Motion tracking</li><li>Teacher–student</li><li>Isaac Lab</li><li>Newton</li><li>MuJoCo / mjlab</li></ul>
         <h4><span lang="ko">동작 데이터</span><span lang="en">Motion data</span></h4>
         <ul class="chips"><li>GVHMR</li><li>GEM-X</li><li>Retargeting</li><li>SPIDER</li><li>Motion capture</li></ul>
         <h4><span lang="ko">로봇 · 배포</span><span lang="en">Robot · Deployment</span></h4>
-        <ul class="chips"><li>C++ / ROS 2</li><li>ONNX / TensorRT</li><li>Jetson Orin NX</li><li>RealSense depth</li><li>GR00T VLA</li></ul>
+        <ul class="chips"><li>C++ / ROS 2</li><li>ONNX / TensorRT</li><li>Jetson Orin NX</li><li>RealSense depth</li><li>SONIC</li><li>GR00T</li></ul>
       </div>
     </div>
   </section>
 
   <!-- ===== PROJECTS ===== -->
   <section class="sec" id="projects">
-    <div class="sec-head"><div class="n">02</div><h2><span lang="ko">프로젝트</span><span lang="en">Selected work</span></h2></div>
+    <div class="sec-head"><div class="n">P</div><h2><span lang="ko">프로젝트</span><span lang="en">Selected work</span></h2></div>
 
-    <article class="proj">
-      <div class="idx">P/01</div>
+    <!-- P1 -->
+    <article class="proj" id="p1">
+      <div class="idx">01</div>
       <div class="body">
-        <div class="kick"><span class="status">Acrobatics</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">옆돌기 · 곡예 동작</span><span lang="en">Cartwheels &amp; acrobatics</span></h3>
-        <p lang="ko">옆돌기, 물구나무 걷기, 킵업(누운 자세에서 튀어 일어나기), 레인보우, 백핸드스프링 같은 고난도 전신 동작을 강화학습으로 익혔습니다. 옆돌기는 실제 로봇에서 성공했습니다.</p>
-        <p lang="en">Whole-body acrobatic skills learned with RL: cartwheel, handstand walking, kip-up, rainbow kick and back handspring. The cartwheel runs successfully on the real robot.</p>
-        <ul lang="ko"><li>동작을 단계(준비·도약·착지)로 나눈 보상 설계, 보상 허점(편법 동작) 찾아 막기</li><li>실기 실패 원인 분석: 관절 토크가 한계에 걸리는 구간을 찾아 시뮬레이션 모터 모델에 반영</li></ul>
-        <ul lang="en"><li>Phase-based rewards (prepare · launch · land) and closing reward exploits</li><li>Diagnosed hardware failures from torque saturation and fed real motor limits back into simulation</li></ul>
+        <div class="kick"><span class="status">Motion imitation</span><span class="status real">Real robot</span></div>
+        <h3><span lang="ko">영상·모캡 → 로봇 동작 모방</span><span lang="en">Imitating human video &amp; mocap</span></h3>
+        <p class="hook" lang="ko">휴대폰 영상이나 모션 캡처 한 편이면, 그 동작을 실제 로봇이 따라 합니다.</p>
+        <p class="hook" lang="en">One phone video or mocap clip in, the real robot performs the motion.</p>
+        <dl class="pas">
+          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
+          <dd lang="ko">사람과 로봇은 몸 비율·관절 범위·모터 힘이 달라서, 사람 동작을 그대로 옮기면 넘어집니다. 영상에서 뽑은 동작은 발이 미끄러지고 바닥이 흘러갑니다.</dd>
+          <dd lang="en">Humans and robots differ in proportions, joint range and motor strength, so copied motion falls over. Motion extracted from video also slides and drifts.</dd>
+          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
+          <dd lang="ko">GVHMR / GEM-X로 영상에서 3차원 자세 추출 → 바닥 흐름 보정 → 리타게팅(사람 동작을 로봇 관절로 옮기기)에 디딤발 고정·관절 한계 반영 → 동작 추종 강화학습(실측 모터 토크표, 지연·IMU 오차 무작위화)</dd>
+          <dd lang="en">3D pose from video with GVHMR / GEM-X → floor-drift correction → retargeting with stance-foot locking and joint limits → motion-tracking RL with measured torque tables and latency / IMU randomization</dd>
+          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
+          <dd lang="ko"><b>옆돌기</b> 실기 성공 · <b>태권도 품새</b> 약 80초 전체를 정책 하나로 실기 배포 · <b>춤</b> 영상 → 실기 · 물구나무 걷기·레인보우·킵업 학습</dd>
+          <dd lang="en"><b>Cartwheel</b> on hardware · full ~80 s <b>taekwondo form</b> in a single deployed policy · <b>dance</b> from video to hardware · handstand walk, rainbow kick, kip-up</dd>
+        </dl>
       </div>
       <div class="media">
-        <div class="slot big"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
+        <div class="slot big"><span lang="ko">[ 옆돌기 실기 ]</span><span lang="en">[ Cartwheel · real ]</span></div>
+        <div class="slot"><span lang="ko">[ 품새 ]</span><span lang="en">[ Poomsae ]</span></div>
+        <div class="slot"><span lang="ko">[ 원본 vs 로봇 ]</span><span lang="en">[ Source vs robot ]</span></div>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="idx">P/02</div>
+    <!-- P2 -->
+    <article class="proj" id="p2">
+      <div class="idx">02</div>
       <div class="body">
-        <div class="kick"><span class="status">Perception</span><span class="status">Simulation</span></div>
-        <h3><span lang="ko">깊이 카메라 박스 점프</span><span lang="en">Depth-based box jumping</span></h3>
-        <p lang="ko">로봇 머리의 깊이 카메라 영상만 보고 앞에 놓인 박스에 올라갔다 내려오는 정책입니다. 정답 정보를 다 아는 선생 정책을 먼저 학습한 뒤, 깊이 영상만 받는 학생 정책으로 옮겨 담았습니다.</p>
-        <p lang="en">A policy that jumps onto and off a box using only the head-mounted depth camera. A privileged teacher is trained first, then distilled into a student that sees depth images only.</p>
-        <ul lang="ko"><li>선생–학생 증류, 시뮬레이션 깊이 영상에 실제 카메라 같은 잡음·결측 추가</li><li>박스 크기·위치 무작위화로 다양한 장애물에 대응</li></ul>
-        <ul lang="en"><li>Teacher–student distillation with realistic depth noise and dropout</li><li>Box size and placement randomization for generalization</li></ul>
+        <div class="kick"><span class="status">Perception</span><span class="status real">Real robot</span></div>
+        <h3><span lang="ko">깊이 카메라만 보고 박스 점프</span><span lang="en">Box jumping from depth alone</span></h3>
+        <p class="hook" lang="ko">박스 위치를 알려 주지 않아도, 머리의 깊이 카메라로 보고 뛰어오릅니다.</p>
+        <p class="hook" lang="en">No box position given: the robot sees it with its head depth camera and jumps on.</p>
+        <dl class="pas">
+          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
+          <dd lang="ko">실제 로봇은 박스의 위치·높이를 모르고 깊이 영상만 받습니다. 실제 카메라 영상에는 잡음과 빈 구멍이 있고, 점프 중에는 영상이 끊기기도 합니다.</dd>
+          <dd lang="en">On hardware the robot knows nothing about the box except a depth image, which is noisy, has holes, and can drop out mid-jump.</dd>
+          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
+          <dd lang="ko">박스 정보를 다 아는 선생 정책을 먼저 학습 → 깊이 영상만 받는 학생 정책으로 증류. 시뮬레이션 깊이 영상에 실제 카메라 같은 잡음·결측을 넣고, 박스 크기·위치를 무작위로 바꿈</dd>
+          <dd lang="en">Train a privileged teacher, then distill into a depth-only student. Add realistic noise and dropout to simulated depth, and randomize box size and placement</dd>
+          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
+          <dd lang="ko"><b>실제 로봇이 깊이 영상만으로 박스에 올라가는 데 성공</b> · 실기 기록과 시뮬레이션의 이륙·착지 자세를 비교해 남은 차이 원인 분석</dd>
+          <dd lang="en"><b>Real robot jumps onto the box from depth alone</b> · compared take-off and landing against simulation to locate the remaining gap</dd>
+        </dl>
       </div>
       <div class="media">
-        <div class="slot big"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ DEPTH ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
+        <div class="slot big"><span lang="ko">[ 박스 점프 실기 ]</span><span lang="en">[ Box jump · real ]</span></div>
+        <div class="slot"><span lang="ko">[ 로봇이 보는 깊이 영상 ]</span><span lang="en">[ Robot depth view ]</span></div>
+        <div class="slot"><span lang="ko">[ 시뮬레이션 ]</span><span lang="en">[ Simulation ]</span></div>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="idx">P/03</div>
+    <!-- P3 -->
+    <article class="proj" id="p3">
+      <div class="idx">03</div>
       <div class="body">
-        <div class="kick"><span class="status">Taekwondo</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">태권도 품새 · 발차기</span><span lang="en">Taekwondo forms &amp; kicks</span></h3>
-        <p lang="ko">1분이 넘는 품새 전체와 발차기를 한 정책으로 따라 하도록 학습했습니다. 모션 캡처와 영상에서 얻은 동작을 로봇 몸에 맞게 고치고, 실제 로봇에 배포했습니다.</p>
-        <p lang="en">A single policy that tracks a full taekwondo form (over a minute long) and kicks. Motion from mocap and video was adapted to the robot's body and deployed on hardware.</p>
-        <ul lang="ko"><li>디딤발 고정·관절 한계를 반영한 레퍼런스 수정, 발 충돌 분석</li><li>실측 모터 토크표, IMU 오차 무작위화, 증류 후 강화학습 미세조정</li></ul>
-        <ul lang="en"><li>Reference repair for stance-foot locking and joint limits; foot-collision analysis</li><li>Measured motor torque tables, IMU bias randomization, distillation followed by RL fine-tuning</li></ul>
+        <div class="kick"><span class="status">Multi-skill</span><span class="status real">Real robot</span></div>
+        <h3><span lang="ko">통합 폴리시: 정책 하나로 여러 동작</span><span lang="en">Unified policy: many skills, one network</span></h3>
+        <p class="hook" lang="ko">걷다가 손을 흔들고, 악수하고, 물건을 들고 걷는 일을 정책 하나가 합니다.</p>
+        <p class="hook" lang="en">Walking, waving, shaking hands and carrying, all from one policy.</p>
+        <dl class="pas">
+          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
+          <dd lang="ko">동작마다 정책을 따로 두면, 바꾸는 순간 자세가 덜컹거리거나 넘어집니다. 물건을 들면 무게중심이 바뀌어 걸음이 흐트러집니다.</dd>
+          <dd lang="en">Switching between separate per-skill policies causes jerks and falls, and carrying a load shifts the centre of mass and disturbs walking.</dd>
+          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
+          <dd lang="ko">동작별 선생 정책 여러 개 → 학생 정책 하나로 증류해 걷기 ↔ 손 흔들기·악수·누워서 손 흔들기를 자연스럽게 전환. 운반은 양손으로 감싸 드는 자세에 밀기·무게 변화를 무작위로 넣어 학습</dd>
+          <dd lang="en">Distill several per-skill teachers into one student that switches smoothly between walking and waving, handshakes or a lying-down wave. Carrying is trained with a two-handed cradle grip under random pushes and payloads</dd>
+          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
+          <dd lang="ko"><b>양손 운반 정책 실기 배포</b> · 실기에서 나온 과속·한쪽 쏠림을 기록으로 분석해 개선 · 통합 인사 정책을 로봇 런타임에 탑재</dd>
+          <dd lang="en"><b>Carry policy deployed on hardware</b> · analysed over-speed and drift from robot logs and fixed them · unified greeting policy integrated into the robot runtime</dd>
+        </dl>
       </div>
       <div class="media">
-        <div class="slot big"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
+        <div class="slot big"><span lang="ko">[ 운반 실기 ]</span><span lang="en">[ Carry · real ]</span></div>
+        <div class="slot"><span lang="ko">[ 걷기 ↔ 인사 전환 ]</span><span lang="en">[ Walk ↔ greet ]</span></div>
+        <div class="slot"><span lang="ko">[ 누워서 손 흔들기 ]</span><span lang="en">[ Lying wave ]</span></div>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="idx">P/04</div>
+    <!-- P4 -->
+    <article class="proj" id="p4">
+      <div class="idx">04</div>
       <div class="body">
-        <div class="kick"><span class="status">Video → Robot</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">영상 → 로봇 동작 변환</span><span lang="en">From human video to robot motion</span></h3>
-        <p lang="ko">휴대폰 영상 한 편에서 사람의 3차원 동작을 뽑아 로봇 관절 동작으로 옮기고, 그 동작을 따라 하는 정책을 학습하는 파이프라인을 만들었습니다. 춤, 포즈, 곡예 동작에 사용했습니다.</p>
-        <p lang="en">A pipeline that extracts 3D human motion from a single phone video, retargets it to the robot's joints and trains a tracking policy. Used for dances, poses and acrobatics.</p>
-        <ul lang="ko"><li>GVHMR / GEM-X 자세 추정 → 바닥 흐름 보정 → 리타게팅(사람 동작을 로봇 관절로 옮기기) → 강화학습</li><li>실시간 상체 따라하기: 로봇 카메라로 사람을 보고 팔 동작을 따라 함 (Jetson에서 TensorRT로 실행)</li></ul>
-        <ul lang="en"><li>GVHMR / GEM-X pose estimation → floor-drift correction → retargeting → RL</li><li>Real-time upper-body mimicry from the robot's own camera, running on Jetson with TensorRT</li></ul>
+        <div class="kick"><span class="status">General controller</span><span class="status real">Real robot</span><span class="status wip">VLA in progress</span></div>
+        <h3><span lang="ko">SONIC 범용 제어 → 텔레옵 → VLA</span><span lang="en">SONIC controller → teleop → VLA</span></h3>
+        <p class="hook" lang="ko">어떤 동작이든 따라 하는 범용 제어기 하나를 두고, 입력만 바꿔 끼웁니다.</p>
+        <p class="hook" lang="en">One controller that tracks any motion; only the input changes.</p>
+        <dl class="pas">
+          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
+          <dd lang="ko">새 동작마다 정책을 새로 학습할 수는 없습니다. 사람의 실시간 동작이나 AI 모델의 명령을 바로 받아 움직이는 공통 바탕이 필요합니다.</dd>
+          <dd lang="en">Retraining for every new motion does not scale. A shared base is needed that takes live human motion or model commands directly.</dd>
+          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
+          <dd lang="ko">NVIDIA SONIC 방식의 범용 동작 추종 정책을 K1에 적용하고, 그 위에 입력을 세 단계로 확장</dd>
+          <dd lang="en">Adapt an NVIDIA SONIC-style universal motion tracker to K1, then extend its input in three steps</dd>
+        </dl>
+        <ol class="steps">
+          <li>
+            <b lang="ko">① 전신 텔레옵</b><b lang="en">① Whole-body teleop</b>
+            <span lang="ko">카메라 영상 → 사람 자세 추정 → SONIC → K1. 카메라 처리 경로를 고정 버퍼·CUDA Graphs로 바꿔 처리 시간 단축(기록 영상 기준 평균 52 → 35 ms)</span>
+            <span lang="en">Camera → human pose → SONIC → K1. Rebuilt the camera path with fixed buffers and CUDA Graphs (mean 52 → 35 ms on recorded input)</span>
+          </li>
+          <li>
+            <b lang="ko">② 온디바이스 텔레옵</b><b lang="en">② On-device teleop</b>
+            <span lang="ko">PC 없이 로봇 혼자: 머리 RealSense + Jetson Orin NX에서 TensorRT 자세 추정 → 상체 따라하기. <b>실기 동작</b> · 30 Hz · 프레임당 약 11 ms · 사람 검출 98.5 %</span>
+            <span lang="en">No PC: head RealSense + TensorRT pose estimation on Jetson Orin NX → upper-body mimicry. <b>Runs on hardware</b> · 30 Hz · ~11 ms per frame · 98.5 % person detection</span>
+          </li>
+          <li>
+            <b lang="ko">③ VLA</b><b lang="en">③ VLA</b>
+            <span lang="ko">GR00T를 SONIC 위에 얹어, 로봇 카메라 영상을 보고 다음 동작을 고르게 함. 시뮬레이션 책상 컵 쓸기 첫 평가 12/28 성공, 데이터 확장 중</span>
+            <span lang="en">GR00T on top of SONIC chooses the next motion from the robot camera. First simulated table-sweep evaluation: 12/28 success; scaling data now</span>
+          </li>
+        </ol>
       </div>
       <div class="media">
-        <div class="slot big"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ SOURCE ]</span></div>
-        <div class="slot"><span>[ ROBOT ]</span></div>
-      </div>
-    </article>
-
-    <article class="proj">
-      <div class="idx">P/05</div>
-      <div class="body">
-        <div class="kick"><span class="status">Interaction</span><span class="status">VLA</span></div>
-        <h3><span lang="ko">운반 · 인사 · VLA</span><span lang="en">Carrying, greeting &amp; VLA</span></h3>
-        <p lang="ko">걸으면서 양손으로 물건을 드는 운반 정책, 걷다가 손 흔들기·악수 같은 인사 동작으로 자연스럽게 넘어가는 통합 정책을 만들었습니다. 또 카메라 영상을 보고 다음 동작을 고르는 VLA(시각·언어·행동 모델)를 전신 제어기 위에 얹는 실험을 했습니다.</p>
-        <p lang="en">A walking two-handed carry policy, and a unified policy that blends walking with greeting gestures such as waving and handshakes. I also stacked a vision-language-action model on top of a whole-body controller so the robot chooses its next motion from camera input.</p>
-        <ul lang="ko"><li>운반 중 밀림·무게 변화에 버티도록 학습, 실기 배포 및 주행 쏠림 분석</li><li>GR00T 기반 VLA로 책상 위 물건 쓸기·상자 운반을 시뮬레이션에서 학습·평가</li></ul>
-        <ul lang="en"><li>Robust to pushes and payload changes; deployed on hardware with drift analysis</li><li>GR00T-based VLA trained and evaluated in simulation on table sweeping and box carrying</li></ul>
-      </div>
-      <div class="media">
-        <div class="slot big"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
-        <div class="slot"><span>[ VIDEO ]</span></div>
+        <div class="slot big"><span lang="ko">[ 온디바이스 텔레옵 실기 ]</span><span lang="en">[ On-device teleop · real ]</span></div>
+        <div class="slot"><span lang="ko">[ 전신 텔레옵 ]</span><span lang="en">[ Whole-body teleop ]</span></div>
+        <div class="slot"><span lang="ko">[ VLA 시뮬레이션 ]</span><span lang="en">[ VLA · sim ]</span></div>
       </div>
     </article>
   </section>
-
   <!-- ===== CONTACT ===== -->
   <section class="sec contact" id="contact">
-    <div class="sec-head"><div class="n">03</div><h2><span lang="ko">연락처</span><span lang="en">Contact</span></h2></div>
+    <div class="sec-head"><div class="n">C</div><h2><span lang="ko">연락처</span><span lang="en">Contact</span></h2></div>
     <ul>
       <li><span>Email</span><b>[ — ]</b></li>
       <li><span>GitHub</span><a href="https://github.com/ryutaegi">github.com/ryutaegi</a></li>
