@@ -96,7 +96,7 @@ html[lang="ko"] .hero h1{line-height:1.05;letter-spacing:-.01em}
 .proj ul{list-style:none;margin:0;padding:0;border-top:var(--thick)}
 .proj ul li{padding:12px 0;border-bottom:var(--thin);font-size:15px}
 .proj ul li::before{content:"→ ";font-family:var(--mono)}
-.media{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(0,auto)}
+.media{display:grid;grid-template-columns:1fr 1fr;align-self:start;border-bottom:var(--thick)}
 .media .slot{position:relative;aspect-ratio:16/9;background:var(--sunken);border-bottom:var(--thick);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .media .slot.big{grid-column:1/-1}
 .media .slot:not(.big):nth-of-type(2){border-right:var(--thick)}
@@ -138,6 +138,35 @@ ol.steps{list-style:none;margin:8px 0 0;padding:0;border:var(--thick)}
 ol.steps li{padding:14px 16px;border-bottom:var(--thin);font-size:15px}
 ol.steps li:last-child{border-bottom:0}
 ol.steps li > b{display:block;font:400 18px/1.2 var(--head);margin-bottom:6px}
+
+.proj .result{border:var(--thick);padding:12px 14px;margin-top:20px;font-size:15px}
+.proj .result > b{display:block;font:700 12px/1 var(--mono);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+ol.chain{list-style:none;margin:8px 0 0;padding:0;border-top:var(--thick)}
+ol.chain li{display:grid;grid-template-columns:150px 1fr;border-bottom:var(--thin)}
+ol.chain li b{font:700 12px/1.3 var(--mono);letter-spacing:1px;text-transform:uppercase;padding:10px 10px 10px 0;border-right:var(--thin)}
+ol.chain li > span{padding:10px 0 10px 12px;font:600 14px/1.4 var(--body)}
+.cases{grid-column:1/-1;border-top:var(--thick)}
+.cases h4{margin:0;padding:14px 16px;background:var(--black);color:var(--white);font:400 20px/1.1 var(--head);text-transform:uppercase}
+.case-grid{display:grid;grid-template-columns:1fr 1fr}
+.case{padding:24px 24px 16px;border-bottom:var(--thick);border-right:var(--thick)}
+.case:nth-child(2n){border-right:0}
+.case:last-child:nth-child(odd){grid-column:1/-1;border-right:0}
+.case-grid .case:nth-last-child(-n+2):not(:nth-child(odd):nth-last-child(2)){border-bottom:0}
+.case-grid .case:last-child{border-bottom:0}
+.case h5{margin:0 0 14px;font:400 20px/1.25 var(--head);display:flex;gap:12px;align-items:baseline}
+.case h5 i{font:700 13px/1 var(--mono);font-style:normal;background:var(--black);color:var(--white);padding:4px 6px;flex:none}
+.case dl{margin:0}
+.case dt{font:700 11px/1 var(--mono);letter-spacing:2px;text-transform:uppercase;padding:10px 0 4px;border-top:var(--thin)}
+.case dt:first-child{border-top:0;padding-top:0}
+.case dd{margin:0 0 10px;font-size:15px;line-height:1.6}
+@media (max-width:960px){
+  .cases{grid-column:1/-1}
+  .case-grid{grid-template-columns:1fr}
+  .case{border-right:0!important;padding:20px 16px 12px}
+  .case-grid .case{border-bottom:var(--thick)}
+  .case-grid .case:last-child{border-bottom:0}
+  ol.chain li{grid-template-columns:110px 1fr}
+}
 </style>
 </head>
 <body>
@@ -203,129 +232,72 @@ ol.steps li > b{display:block;font:400 18px/1.2 var(--head);margin-bottom:6px}
   <!-- ===== PROJECTS ===== -->
   <section class="sec" id="projects">
     <div class="sec-head"><div class="n">P</div><h2><span lang="ko">프로젝트</span><span lang="en">Selected work</span></h2></div>
-
-    <!-- P1 -->
-    <article class="proj" id="p1">
-      <div class="idx">01</div>
-      <div class="body">
-        <div class="kick"><span class="status">Motion imitation</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">영상·모캡 → 로봇 동작 모방</span><span lang="en">Imitating human video &amp; mocap</span></h3>
-        <p class="hook" lang="ko">휴대폰 영상이나 모션 캡처 한 편이면, 그 동작을 실제 로봇이 따라 합니다.</p>
-        <p class="hook" lang="en">One phone video or mocap clip in, the real robot performs the motion.</p>
-        <dl class="pas">
-          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
-          <dd lang="ko">사람과 로봇은 몸 비율·관절 범위·모터 힘이 달라서, 사람 동작을 그대로 옮기면 넘어집니다. 영상에서 뽑은 동작은 발이 미끄러지고 바닥이 흘러갑니다.</dd>
-          <dd lang="en">Humans and robots differ in proportions, joint range and motor strength, so copied motion falls over. Motion extracted from video also slides and drifts.</dd>
-          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
-          <dd lang="ko">GVHMR / GEM-X로 영상에서 3차원 자세 추출 → 바닥 흐름 보정 → 리타게팅(사람 동작을 로봇 관절로 옮기기)에 디딤발 고정·관절 한계 반영 → 동작 추종 강화학습(실측 모터 토크표, 지연·IMU 오차 무작위화)</dd>
-          <dd lang="en">3D pose from video with GVHMR / GEM-X → floor-drift correction → retargeting with stance-foot locking and joint limits → motion-tracking RL with measured torque tables and latency / IMU randomization</dd>
-          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
-          <dd lang="ko"><b>옆돌기</b> 실기 성공 · <b>태권도 품새</b> 약 80초 전체를 정책 하나로 실기 배포 · <b>춤</b> 영상 → 실기 · 물구나무 걷기·레인보우·킵업 학습</dd>
-          <dd lang="en"><b>Cartwheel</b> on hardware · full ~80 s <b>taekwondo form</b> in a single deployed policy · <b>dance</b> from video to hardware · handstand walk, rainbow kick, kip-up</dd>
-        </dl>
-      </div>
-      <div class="media">
-        <div class="slot big"><span lang="ko">[ 옆돌기 실기 ]</span><span lang="en">[ Cartwheel · real ]</span></div>
-        <div class="slot"><span lang="ko">[ 품새 ]</span><span lang="en">[ Poomsae ]</span></div>
-        <div class="slot"><span lang="ko">[ 원본 vs 로봇 ]</span><span lang="en">[ Source vs robot ]</span></div>
-      </div>
-    </article>
-
-    <!-- P2 -->
-    <article class="proj" id="p2">
-      <div class="idx">02</div>
-      <div class="body">
-        <div class="kick"><span class="status">Perception</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">뎁스카메라만 보고 박스 점프</span><span lang="en">Box jumping from depth alone</span></h3>
-        <p class="hook" lang="ko">박스 위치를 알려 주지 않아도, 머리의 뎁스카메라로 보고 뛰어오릅니다.</p>
-        <p class="hook" lang="en">No box position given: the robot sees it with its head depth camera and jumps on.</p>
-        <dl class="pas">
-          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
-          <dd lang="ko">실제 로봇은 박스의 위치·높이를 모르고 뎁스 영상만 받습니다. 실제 카메라 영상에는 잡음과 빈 구멍이 있고, 점프 중에는 영상이 끊기기도 합니다.</dd>
-          <dd lang="en">On hardware the robot knows nothing about the box except a depth image, which is noisy, has holes, and can drop out mid-jump.</dd>
-          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
-          <dd lang="ko">박스 정보를 다 아는 선생 정책을 먼저 학습 → 뎁스 영상만 받는 학생 정책으로 증류. 시뮬레이션 뎁스 영상에 실제 카메라 같은 잡음·결측을 넣고, 박스 크기·위치를 무작위로 바꿈</dd>
-          <dd lang="en">Train a privileged teacher, then distill into a depth-only student. Add realistic noise and dropout to simulated depth, and randomize box size and placement</dd>
-          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
-          <dd lang="ko"><b>실제 로봇이 뎁스 영상만으로 박스에 올라가는 데 성공</b> · 실기 기록과 시뮬레이션의 이륙·착지 자세를 비교해 남은 차이 원인 분석</dd>
-          <dd lang="en"><b>Real robot jumps onto the box from depth alone</b> · compared take-off and landing against simulation to locate the remaining gap</dd>
-        </dl>
-      </div>
-      <div class="media">
-        <div class="slot big"><span lang="ko">[ 박스 점프 실기 ]</span><span lang="en">[ Box jump · real ]</span></div>
-        <div class="slot"><span lang="ko">[ 로봇이 보는 뎁스 영상 ]</span><span lang="en">[ Robot depth view ]</span></div>
-        <div class="slot"><span lang="ko">[ 시뮬레이션 ]</span><span lang="en">[ Simulation ]</span></div>
-      </div>
-    </article>
-
-    <!-- P3 -->
-    <article class="proj" id="p3">
-      <div class="idx">03</div>
-      <div class="body">
-        <div class="kick"><span class="status">Multi-skill</span><span class="status real">Real robot</span></div>
-        <h3><span lang="ko">통합 폴리시: 정책 하나로 여러 동작</span><span lang="en">Unified policy: many skills, one network</span></h3>
-        <p class="hook" lang="ko">걷다가 손을 흔들고, 악수하고, 물건을 들고 걷는 일을 정책 하나가 합니다.</p>
-        <p class="hook" lang="en">Walking, waving, shaking hands and carrying, all from one policy.</p>
-        <dl class="pas">
-          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
-          <dd lang="ko">동작마다 정책을 따로 두면, 바꾸는 순간 자세가 덜컹거리거나 넘어집니다. 물건을 들면 무게중심이 바뀌어 걸음이 흐트러집니다.</dd>
-          <dd lang="en">Switching between separate per-skill policies causes jerks and falls, and carrying a load shifts the centre of mass and disturbs walking.</dd>
-          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
-          <dd lang="ko">동작별 선생 정책 여러 개 → 학생 정책 하나로 증류해 걷기 ↔ 손 흔들기·악수·누워서 손 흔들기를 자연스럽게 전환. 운반은 양손으로 감싸 드는 자세에 밀기·무게 변화를 무작위로 넣어 학습</dd>
-          <dd lang="en">Distill several per-skill teachers into one student that switches smoothly between walking and waving, handshakes or a lying-down wave. Carrying is trained with a two-handed cradle grip under random pushes and payloads</dd>
-          <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
-          <dd lang="ko"><b>양손 운반 정책 실기 배포</b> · 실기에서 나온 과속·한쪽 쏠림을 기록으로 분석해 개선 · 통합 인사 정책을 로봇 런타임에 탑재</dd>
-          <dd lang="en"><b>Carry policy deployed on hardware</b> · analysed over-speed and drift from robot logs and fixed them · unified greeting policy integrated into the robot runtime</dd>
-        </dl>
-      </div>
-      <div class="media">
-        <div class="slot big"><span lang="ko">[ 운반 실기 ]</span><span lang="en">[ Carry · real ]</span></div>
-        <div class="slot"><span lang="ko">[ 걷기 ↔ 인사 전환 ]</span><span lang="en">[ Walk ↔ greet ]</span></div>
-        <div class="slot"><span lang="ko">[ 누워서 손 흔들기 ]</span><span lang="en">[ Lying wave ]</span></div>
-      </div>
-    </article>
-
-    <!-- P4 -->
-    <article class="proj" id="p4">
-      <div class="idx">04</div>
-      <div class="body">
-        <div class="kick"><span class="status">General controller</span><span class="status real">Real robot</span><span class="status wip">VLA in progress</span></div>
-        <h3><span lang="ko">SONIC 범용 제어 → 텔레옵 → VLA</span><span lang="en">SONIC controller → teleop → VLA</span></h3>
-        <p class="hook" lang="ko">어떤 동작이든 따라 하는 범용 제어기 하나를 두고, 입력만 바꿔 끼웁니다.</p>
-        <p class="hook" lang="en">One controller that tracks any motion; only the input changes.</p>
-        <dl class="pas">
-          <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
-          <dd lang="ko">새 동작마다 정책을 새로 학습할 수는 없습니다. 사람의 실시간 동작이나 AI 모델의 명령을 바로 받아 움직이는 공통 바탕이 필요합니다.</dd>
-          <dd lang="en">Retraining for every new motion does not scale. A shared base is needed that takes live human motion or model commands directly.</dd>
-          <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
-          <dd lang="ko">NVIDIA SONIC 방식의 범용 동작 추종 정책을 K1에 적용하고, 그 위에 입력을 세 단계로 확장</dd>
-          <dd lang="en">Adapt an NVIDIA SONIC-style universal motion tracker to K1, then extend its input in three steps</dd>
-        </dl>
-        <ol class="steps">
-          <li>
-            <b lang="ko">① 전신 텔레옵</b><b lang="en">① Whole-body teleop</b>
-            <span lang="ko">카메라 영상 → 사람 자세 추정 → SONIC → K1. 카메라 처리 경로를 고정 버퍼·CUDA Graphs로 바꿔 처리 시간 단축(기록 영상 기준 평균 52 → 35 ms)</span>
-            <span lang="en">Camera → human pose → SONIC → K1. Rebuilt the camera path with fixed buffers and CUDA Graphs (mean 52 → 35 ms on recorded input)</span>
-          </li>
-          <li>
-            <b lang="ko">② 온디바이스 텔레옵</b><b lang="en">② On-device teleop</b>
-            <span lang="ko">PC 없이 로봇 혼자: 머리 RealSense + Jetson Orin NX에서 TensorRT 자세 추정 → 상체 따라하기. <b>실기 동작</b> · 30 Hz · 프레임당 약 11 ms · 사람 검출 98.5 %</span>
-            <span lang="en">No PC: head RealSense + TensorRT pose estimation on Jetson Orin NX → upper-body mimicry. <b>Runs on hardware</b> · 30 Hz · ~11 ms per frame · 98.5 % person detection</span>
-          </li>
-          <li>
-            <b lang="ko">③ VLA</b><b lang="en">③ VLA</b>
-            <span lang="ko">GR00T를 SONIC 위에 얹어, 로봇 카메라 영상을 보고 다음 동작을 고르게 함. 시뮬레이션 책상 컵 쓸기 첫 평가 12/28 성공, 데이터 확장 중</span>
-            <span lang="en">GR00T on top of SONIC chooses the next motion from the robot camera. First simulated table-sweep evaluation: 12/28 success; scaling data now</span>
-          </li>
-        </ol>
-      </div>
-      <div class="media">
-        <div class="slot big"><span lang="ko">[ 온디바이스 텔레옵 실기 ]</span><span lang="en">[ On-device teleop · real ]</span></div>
-        <div class="slot"><span lang="ko">[ 전신 텔레옵 ]</span><span lang="en">[ Whole-body teleop ]</span></div>
-        <div class="slot"><span lang="ko">[ VLA 시뮬레이션 ]</span><span lang="en">[ VLA · sim ]</span></div>
-      </div>
-    </article>
+<article class="proj" id="p1">
+<div class="idx">01</div>
+<div class="body">
+<div class="kick"><span class="status ">Motion imitation</span><span class="status real">Real robot</span></div>
+<h3><span lang="ko">영상·모캡 → 로봇 동작 모방</span><span lang="en">Imitating human video &amp; mocap</span></h3>
+<p class="hook" lang="ko">휴대폰 영상이나 모션 캡처 한 편이면, 그 동작을 실제 로봇이 따라 합니다.</p><p class="hook" lang="en">One phone video or mocap clip in, the real robot performs the motion.</p>
+<p lang="ko">사람 동작을 로봇이 따라 하려면 세 단계가 다 맞아야 합니다. 영상에서 사람 자세를 정확히 뽑고, 몸이 다른 로봇에 옮기고, 물리적으로 가능한 동작으로 다듬은 뒤 학습합니다. 단계마다 여러 도구를 직접 써 보고 비교했습니다.</p><p lang="en">Three stages must all work: extract the human pose from video, transfer it to a robot with a different body, clean it into physically feasible motion, then train. I tried and compared several tools at each stage.</p>
+<ol class="chain">
+<li><b><span lang="ko">영상 → 사람 자세</span><span lang="en">Video → pose</span></b><span>GVHMR · GEM-X · FlowHMR</span></li>
+<li><b><span lang="ko">골격 변환</span><span lang="en">Skeleton</span></b><span>kimodo (SOMA77)</span></li>
+<li><b><span lang="ko">리타게팅</span><span lang="en">Retargeting</span></b><span>SOMA Retargeter · GMR · SPIDER · UMR</span></li>
+<li><b><span lang="ko">다듬기</span><span lang="en">Cleanup</span></b><span>SBTO · <span lang="ko">자기충돌 보정</span><span lang="en">Self-collision fix</span> · <span lang="ko">바닥 보정</span><span lang="en">Floor fix</span></span></li>
+<li><b><span lang="ko">학습</span><span lang="en">Training</span></b><span>Isaac Lab · Newton · mjlab</span></li>
+</ol>
+<div class="result"><b><span lang="ko">결과</span><span lang="en">Result</span></b><span lang="ko"><b>옆돌기</b> 실기 성공 · <b>태권도 품새</b> 약 80초 전체를 정책 하나로 실기 배포 · <b>춤</b> 영상 → 실기 · 물구나무 걷기·레인보우·킵업·백핸드스프링 학습</span><span lang="en"><b>Cartwheel</b> on hardware · full ~80 s <b>taekwondo form</b> in one deployed policy · <b>dance</b> from video to hardware · handstand walk, rainbow kick, kip-up, back handspring</span></div>
+</div>
+<div class="media"><div class="slot big"><span lang="ko">[ 옆돌기 실기 ]</span><span lang="en">[ Cartwheel · real ]</span></div><div class="slot"><span lang="ko">[ 품새 ]</span><span lang="en">[ Poomsae ]</span></div><div class="slot"><span lang="ko">[ 원본 vs 로봇 ]</span><span lang="en">[ Source vs robot ]</span></div></div>
+<div class="cases"><h4><span lang="ko">문제와 해결 기록</span><span lang="en">Problems &amp; how I solved them</span></h4><div class="case-grid">
+<div class="case"><h5><i>01</i><span lang="ko">영상 속 사람이 바닥에서 떠오른다</span><span lang="en">The person drifts off the floor</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">단안 영상에서 뽑은 자세는 시간이 갈수록 바닥 높이가 어긋나, 발이 땅에 묻히거나 공중에 뜹니다. 카메라 움직임을 계산하는 기능(DPVO)은 설치돼 있지 않았고, 대신 쓰는 SimpleVO는 단색 배경에서 실패했습니다.</dd><dd lang="en">Pose from monocular video drifts vertically over time, so feet sink or float. DPVO was not actually installed, and the SimpleVO fallback failed on plain backgrounds.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">SimpleVO 실패는 특징점이 적어서가 아니라, 배경이 평면이라 카메라 움직임을 풀 수 없는 기하 문제였습니다.</dd><dd lang="en">SimpleVO did not fail for lack of matches; a planar background makes the camera motion geometrically unsolvable.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">시작·끝 두 점만 맞추는 대신, 발이 확실히 닿은 구간 여러 곳을 기준점으로 잡고 그 사이를 부드럽게 이어 바닥 높이를 맞추는 보정 도구를 직접 만들었습니다. 자세 추정기는 GVHMR, GEM-X, FlowHMR을 비교해 동작마다 골랐고, 103초짜리 품새는 FlowHMR로 뽑았습니다.</dd><dd lang="en">Wrote a correction tool that anchors on several trusted foot-contact windows (not just start and end) and smoothly fits the floor between them. Compared GVHMR, GEM-X and FlowHMR per motion; the 103 s poomsae was extracted with FlowHMR.</dd></dl></div><div class="case"><h5><i>02</i><span lang="ko">옆돌기에서 손이 바닥을 못 짚는다</span><span lang="en">Hands never reach the floor in the cartwheel</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">리타게팅 결과에서 옆돌기 손 짚는 순간 손이 바닥보다 22~24 cm 떠 있었습니다.</dd><dd lang="en">After retargeting, the hands stayed 22–24 cm above the floor at the cartwheel support moments.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">SOMA Retargeter에는 발을 바닥에 붙이는 목표만 있고 손에는 없습니다.</dd><dd lang="en">SOMA Retargeter only has a foot-stabilizing objective, nothing for hands.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">손 짚는 두 순간에 맞춰 전신 높이만 부드럽게 내리는 보정을 넣었습니다. 몸통이 360° 도는지, 관절 한계 위반이 없는지 수치로 확인한 뒤 학습했고, 9월 실기에서 성공했습니다(로봇 IMU 기록으로 확인).</dd><dd lang="en">Added a smooth vertical-only whole-body correction timed to the two hand contacts. Checked numerically for a full 360° torso roll and zero joint-limit violations before training; succeeded on hardware in September, confirmed from robot IMU logs.</dd></dl></div><div class="case"><h5><i>03</i><span lang="ko">팔과 몸이 서로 파고든다</span><span lang="en">Arms pass through the body</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">운동학 리타게팅 결과는 팔·몸이 서로 파고드는 프레임이 9~69 %(최대 3~6 cm)였고, 품새 학습 데이터는 33.8 %(최대 8.2 cm)였습니다. 이대로 학습하면 실기에서 팔이 몸에 부딪힙니다.</dd><dd lang="en">Kinematic retargets had arm–body penetration in 9–69 % of frames (up to 3–6 cm); the poomsae training data had 33.8 % (up to 8.2 cm), which means collisions on hardware.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">SBTO(궤적 최적화)로 다듬어 23개 동작 중 19개에서 5 mm 넘는 관통을 0 %로 만들었습니다. 남은 동작은 프레임마다 원본과 가장 덜 달라지게 팔만 고치는 최적화로 충돌을 없앴습니다. SPIDER(MuJoCo 물리 기반 리타게터)도 비교했습니다.</dd><dd lang="en">Refined with SBTO trajectory optimization: 19 of 23 motions reached 0 % penetration above 5 mm. For the rest, a per-frame minimal-change optimization fixed only the arms. Also compared SPIDER, a MuJoCo physics-based retargeter.</dd></dl></div><div class="case"><h5><i>04</i><span lang="ko">품새 정책이 손목을 반대로 돌린다</span><span lang="en">The poomsae policy twists the wrist backwards</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">학습된 품새 정책이 특정 구간에서 손 위치는 맞는데 손 방향이 크게 틀렸습니다(오른손 141°, 왼손 76°).</dd><dd lang="en">The trained policy kept hand positions right but hand orientation badly wrong in one segment (141° right, 76° left).</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">레퍼런스에서 오른어깨 각도가 뒤집힌 구간이 전체의 30 %(34–68초)였습니다. 같은 손 위치를 다른 관절 조합으로 표현한 것이라 위치 오차로는 잡히지 않았습니다. 각도를 단순히 바꾸면 경계에서 180° 점프가 생깁니다.</dd><dd lang="en">The reference had a flipped right-shoulder solution for 30 % of the clip (34–68 s): the same hand position from a different joint combination, invisible to position error. Swapping it naively creates a 180° jump at the boundary.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">어깨 한계와 디딤발 고정을 넣은 UMR로 다시 리타게팅하고, 선자세 무게중심을 뒤로 옮기는 등 레퍼런스를 고친 뒤 이어서 학습했습니다.</dd><dd lang="en">Re-retargeted with UMR using shoulder limits and stance-foot locking, moved the ready-stance centre of mass back, and continued training.</dd></dl></div><div class="case"><h5><i>05</i><span lang="ko">시뮬레이션은 되는데 실기에서 잔발이 많다</span><span lang="en">Fine in sim, many extra steps on hardware</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">품새 실기 기록을 시뮬레이션과 맞춰 보니, 왼발 착지 구간에서만 옆으로 34~43° 더 기울었고 잔발이 27번(시뮬레이션 5~8번)이었습니다.</dd><dd lang="en">Aligning hardware logs with simulation: only the left-foot landings tilted 34–43° more sideways, and there were 27 extra steps vs 5–8 in sim.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">그 구간에서 디딤 무릎·고관절이 토크 한계에 걸렸고, 레퍼런스 자체에 물리적으로 불가능한 구간이 있었습니다.</dd><dd lang="en">Stance knee and hip hit torque limits there, and the reference itself contained physically infeasible segments.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">충돌 모델과 바닥 디딤 판정을 고치고, IMU 오차를 무작위로 넣고, 마지막 발차기의 다리 간격을 넓힌 레퍼런스로 추가 학습했습니다.</dd><dd lang="en">Fixed the collision model and foot-contact detection, added IMU-bias randomization, and retrained on a reference with a wider stance in the final kick.</dd></dl></div><div class="case"><h5><i>06</i><span lang="ko">곡예 동작마다 다른 실패</span><span lang="en">Each acrobatic skill fails differently</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">물구나무는 실기에서 실패했고, 선자(곡예 착지)는 잔발과 흔들림이 컸고, 킵업은 정책이 발차기로 보상을 챙기는 편법을 찾았습니다.</dd><dd lang="en">Handstand failed on hardware, the Sunja landing had extra steps and wobble, and the kip-up policy found a kicking exploit to collect reward.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">물구나무는 거꾸로 서는 정점에서 전 관절 토크가 100 % 포화됐습니다. 선자는 관절별 회생 전력 페널티가 오히려 잔발을 만들었습니다.</dd><dd lang="en">Handstand: every joint saturated at 100 % torque at the inversion apex. Sunja: per-joint regenerative-power penalties caused the extra steps.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">물구나무는 실측 토크표를 넣은 새 환경에서 다시 학습하고 있습니다. 선자는 회생 전력 페널티로 착지 하강 속도를 2.49 → 1.88 m/s로 줄였고, 잔발을 만든 관절별 항을 빼고 전신 합산 하나로 다시 설계했습니다. 킵업은 동작을 단계로 나눈 보상으로 다시 짜고 편법을 막았습니다.</dd><dd lang="en">Handstand is being retrained in a new environment with the measured torque table. For Sunja, a regenerative-power penalty cut landing descent speed from 2.49 to 1.88 m/s; the per-joint terms that caused extra steps were dropped for a single whole-body net term. The kip-up reward was rebuilt around motion phases with the exploit closed.</dd></dl></div>
+</div></div></article>
+<article class="proj" id="p2">
+<div class="idx">02</div>
+<div class="body">
+<div class="kick"><span class="status ">Perception</span><span class="status real">Real robot</span></div>
+<h3><span lang="ko">뎁스카메라만 보고 박스 점프</span><span lang="en">Box jumping from depth alone</span></h3>
+<p class="hook" lang="ko">박스 위치를 알려 주지 않아도, 머리의 뎁스카메라로 보고 뛰어오릅니다.</p><p class="hook" lang="en">No box position given: the robot sees it with its head depth camera and jumps on.</p>
+<p lang="ko">박스 정보를 다 아는 선생 정책을 먼저 만들고, 뎁스 영상만 받는 학생 정책으로 옮겨 담았습니다. 학생 정책은 로봇 C++ 런타임에서 뎁스 입력(2장 × 49 × 87)을 받도록 이식했습니다.</p><p lang="en">A privileged teacher first, then distilled into a depth-only student. The student was ported to the robot's C++ runtime with a 2 × 49 × 87 depth input.</p>
+<div class="result"><b><span lang="ko">결과</span><span lang="en">Result</span></b><span lang="ko"><b>실제 로봇이 뎁스 영상만으로 박스에 올라가는 데 성공</b> · 시뮬레이션(밀기·잡음 포함 1024회): 선생 99.1 %, 학생 94.8 %</span><span lang="en"><b>Real robot jumps onto the box from depth alone</b> · in simulation with pushes and noise (1024 runs): teacher 99.1 %, student 94.8 %</span></div>
+</div>
+<div class="media"><div class="slot big"><span lang="ko">[ 박스 점프 실기 ]</span><span lang="en">[ Box jump · real ]</span></div><div class="slot"><span lang="ko">[ 로봇이 보는 뎁스 영상 ]</span><span lang="en">[ Robot depth view ]</span></div><div class="slot"><span lang="ko">[ 시뮬레이션 ]</span><span lang="en">[ Simulation ]</span></div></div>
+<div class="cases"><h4><span lang="ko">문제와 해결 기록</span><span lang="en">Problems &amp; how I solved them</span></h4><div class="case-grid">
+<div class="case"><h5><i>01</i><span lang="ko">로봇은 박스 높이를 모른다</span><span lang="en">The robot does not know the box height</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">학습할 때는 박스 높이에 맞춘 레퍼런스를 줄 수 있지만, 실제 로봇은 박스 높이를 모릅니다.</dd><dd lang="en">In training the reference can be fitted to the box height, but the real robot has no such information.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">학생 정책에는 박스 높이와 상관없는 표준 레퍼런스 하나만 주고, 얼마나 높이 뛸지는 뎁스 영상으로 스스로 판단하게 설계했습니다.</dd><dd lang="en">The student gets one canonical reference regardless of box height and must judge how high to jump from depth.</dd></dl></div><div class="case"><h5><i>02</i><span lang="ko">정책이 박스 높이를 무시한다</span><span lang="en">The policy ignores box height</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">중간 점검 영상에서 선생 정책이 박스 높이와 상관없이 늘 같은 높이(약 0.37 m)로 뛰었습니다.</dd><dd lang="en">In a mid-training check the teacher jumped the same height (~0.37 m) regardless of the box.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">높이 정보를 받고도 쓰지 않는 쉬운 해법에 머물러 있었습니다.</dd><dd lang="en">It had settled on an easy solution that ignored the height input.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">이륙 관련 설정을 고쳐 다시 학습했습니다. 동작 완주율이 25.8 % → 69.5 %로 올랐고, 밀기·잡음을 넣은 평가에서 최종 99.1 %가 됐습니다.</dd><dd lang="en">Fixed the take-off setup and retrained: completion rose from 25.8 % to 69.5 %, reaching 99.1 % in the robustness test.</dd></dl></div><div class="case"><h5><i>03</i><span lang="ko">학생이 정말 뎁스를 보는가</span><span lang="en">Does the student actually use depth?</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">학생 성공률 94.8 %가 뎁스를 보고 낸 결과인지, 그냥 평균 동작을 외운 결과인지 알 수 없었습니다.</dd><dd lang="en">94.8 % success could come from reading depth, or from memorizing an average motion.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">뎁스를 0으로 지운 시험에서는 박스 위에 0/1024, 다른 환경의 뎁스로 바꿔 넣은 시험에서는 24/1024만 올라갔습니다. 정책이 뎁스에 실제로 의존한다는 것을 확인했습니다.</dd><dd lang="en">Ablations: zeroed depth → 0/1024 on the box; depth swapped from another environment → 24/1024. The policy truly depends on depth.</dd></dl></div><div class="case"><h5><i>04</i><span lang="ko">학습이 NaN으로 멈춘다</span><span lang="en">Training crashes with NaN</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">선생 학습이 1607회째에 보상 NaN으로 멈췄습니다. 또 지형 메시를 쓰면 리셋할 때 로봇이 약 10 m/s로 튕겨 나갔습니다.</dd><dd lang="en">Teacher training crashed with NaN reward at iteration 1607, and with terrain meshes the robot was launched at ~10 m/s on reset.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">물리 엔진(Newton)이 리셋 때 관절 상태만 다시 쓰고 솔버 내부 상태(가속도 초기값 등)는 초기화하지 않았습니다. 지형 메시는 볼록 껍질로 합쳐져 충돌했습니다.</dd><dd lang="en">Newton rewrote joint state on reset but never reset the solver's internal state (e.g. acceleration warm-start). Terrain meshes collided as merged convex hulls.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">NaN을 감지해 그 환경만 복구하는 보호 장치를 넣고 원인을 코드에서 확인했습니다. 지형 메시 대신 박스 크기·위치 무작위화로 바꿨습니다.</dd><dd lang="en">Added a guard that detects NaN and resets only the affected environment, and confirmed the root cause in code. Replaced terrain meshes with randomized boxes.</dd></dl></div><div class="case"><h5><i>05</i><span lang="ko">실기 착지가 시뮬레이션보다 앞으로 쏠린다</span><span lang="en">Hardware landing pitches further forward</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">첫 실기 시험에서 이륙 직후 카메라가 끊겼지만 박스에는 올라갔습니다. 착지 때 몸통이 54~67° 앞으로 숙여져(시뮬레이션 30~37°) 회복하지 못했습니다.</dd><dd lang="en">In the first hardware trial the camera dropped right after take-off, yet the robot got onto the box; on landing the torso pitched 54–67° (30–37° in sim) and did not recover.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">로봇 명령 기록을 분석하니 좌우 다리가 엇갈려 밀어 주는 이륙은 시뮬레이션에도 있는 학습된 습관이었고, 제어 지연을 0으로 한 시뮬레이션도 98.8 %라 지연은 원인이 아니었습니다. 이륙 전에 본 영상만으로 올라가기는 충분했습니다.</dd><dd lang="en">Command logs showed the staggered leg push also exists in sim (a learned style), and zero-latency sim still scored 98.8 %, so latency was not the cause. The pre-take-off image alone was enough to jump on.</dd><dt><span lang="ko">판단</span><span lang="en">Takeaway</span></dt><dd lang="ko">착지 차이를 줄일 방법으로 좌우 대칭 학습, 비행·착지 중 기울기 추종 벌점, 착지 자세 견고성 강화를 정리했습니다.</dd><dd lang="en">Listed the next levers for the landing gap: symmetry training, a roll-tracking penalty in flight and landing, and landing-pitch robustness.</dd></dl></div>
+</div></div></article>
+<article class="proj" id="p3">
+<div class="idx">03</div>
+<div class="body">
+<div class="kick"><span class="status ">Multi-skill</span><span class="status real">Real robot</span></div>
+<h3><span lang="ko">통합 폴리시: 정책 하나로 여러 동작</span><span lang="en">Unified policy: many skills, one network</span></h3>
+<p class="hook" lang="ko">걷다가 손을 흔들고, 악수하고, 물건을 들고 걷는 일을 정책 하나가 합니다.</p><p class="hook" lang="en">Walking, waving, shaking hands and carrying, all from one policy.</p>
+<p lang="ko">동작별 선생 정책 여러 개를 학생 정책 하나로 증류해 걷기 ↔ 손 흔들기·악수·누워서 손 흔들기를 자연스럽게 오갑니다. 운반은 손이 주먹형이라 양손으로 감싸 드는 자세로 설계했습니다.</p><p lang="en">Several per-skill teachers are distilled into one student that moves between walking and waving, handshakes and a lying-down wave. Since K1 has fist hands, carrying uses a two-handed cradle grip.</p>
+<div class="result"><b><span lang="ko">결과</span><span lang="en">Result</span></b><span lang="ko"><b>양손 운반 정책 실기 배포</b> · 손 든 채 멈추지 못하던 문제를 실기에서 해결 · 통합 인사 정책을 로봇 런타임에 탑재</span><span lang="en"><b>Carry policy deployed on hardware</b> · fixed the hands-up standstill creep on the real robot · unified greeting policy integrated into the robot runtime</span></div>
+</div>
+<div class="media"><div class="slot big"><span lang="ko">[ 운반 실기 ]</span><span lang="en">[ Carry · real ]</span></div><div class="slot"><span lang="ko">[ 걷기 ↔ 인사 전환 ]</span><span lang="en">[ Walk ↔ greet ]</span></div><div class="slot"><span lang="ko">[ 누워서 손 흔들기 ]</span><span lang="en">[ Lying wave ]</span></div></div>
+<div class="cases"><h4><span lang="ko">문제와 해결 기록</span><span lang="en">Problems &amp; how I solved them</span></h4><div class="case-grid">
+<div class="case"><h5><i>01</i><span lang="ko">손을 들면 로봇이 멈추지 않는다</span><span lang="en">Hands up, and the robot will not stop</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">운반 정책 실기에서 손을 들면 과속하고, 멈추지도 돌지도 못하고, 오른쪽으로 쏠렸습니다.</dd><dd lang="en">On hardware, raising the hands made the robot overspeed, unable to stop or turn, and drift right.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">먼저 로봇 런타임을 의심해 실기 관측값을 학습 코드에 그대로 다시 넣어 봤고, 출력이 완전히 일치했습니다(상관 1.000). 시뮬레이션은 손에 1.5 kg을 더 얹어야 과속이 재현됐습니다. 즉 런타임이 아니라 시뮬레이션과 실물의 하중·모터 차이였습니다.</dd><dd lang="en">First suspected the runtime: replaying hardware observations through the training code matched exactly (correlation 1.000). Simulation only reproduced the overspeed with +1.5 kg in the hands, so the gap was load and motor mismatch, not the runtime.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">멈춰 설 때 다리 자세를 붙잡아 두는 옵션을 추가했고, 관절 게인 실험에서 엉덩이 게인으로는 안 고쳐지고 발목 게인만 앞으로 밀려가는 것을 멈춘다는 것을 확인했습니다. 이후 버전 실기에서 손 든 채 서 있을 때 밀려가던 문제가 해결됐습니다.</dd><dd lang="en">Added an option that holds the leg posture when stopping, and a gain sweep showed hip gains could not fix the creep while ankle gains could. A later version fixed the hands-up standstill creep on hardware.</dd></dl></div><div class="case"><h5><i>02</i><span lang="ko">정책을 바꾸는 순간 덜컹거린다</span><span lang="en">A jolt at every policy switch</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">다른 정책에서 걷기 정책으로 넘어가는 순간 관절이 덜컹거렸습니다.</dd><dd lang="en">Joints jolted at the moment control passed to the walking policy.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">진입 순간 목표 자세가 이전 자세와 끊겨 한 번에 바뀌었습니다.</dd><dd lang="en">The target pose jumped discontinuously at entry.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">진입 구간에서 목표를 부드럽게(raised-cosine) 이어 주는 런타임 패치를 만들고, MuJoCo에서 전후를 비교해 확인했습니다.</dd><dd lang="en">Wrote a runtime patch that blends the target smoothly (raised cosine) on entry, verified with before/after MuJoCo comparisons.</dd></dl></div><div class="case"><h5><i>03</i><span lang="ko">실제 로봇은 시뮬레이션보다 훨씬 무르다</span><span lang="en">The real robot is far more damped than sim</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">같은 명령을 줘도 실기와 시뮬레이션의 관절 움직임이 달랐습니다.</dd><dd lang="en">The same commands produced different joint motion on hardware and in sim.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">로봇 기록으로 관절별 실제 감쇠를 추정하니 실기 감쇠비가 약 1~2로, 시뮬레이션(0.25~0.4)보다 2~6배 컸습니다. 학습 시뮬레이션의 관절 마찰이 0으로 설정돼 있던 것을 찾아냈습니다.</dd><dd lang="en">Estimating per-joint damping from robot logs gave a real damping ratio of about 1–2 versus 0.25–0.4 in sim, 2–6× higher, and revealed joint friction was set to zero in the training sim.</dd></dl></div>
+</div></div></article>
+<article class="proj" id="p4">
+<div class="idx">04</div>
+<div class="body">
+<div class="kick"><span class="status ">General controller</span><span class="status real">Real robot</span><span class="status wip">VLA in progress</span></div>
+<h3><span lang="ko">SONIC 범용 제어 → 텔레옵 → VLA</span><span lang="en">SONIC controller → teleop → VLA</span></h3>
+<p class="hook" lang="ko">어떤 동작이든 따라 하는 범용 제어기 하나를 두고, 입력만 바꿔 끼웁니다.</p><p class="hook" lang="en">One controller that tracks any motion; only the input changes.</p>
+<p lang="ko">NVIDIA SONIC 방식의 범용 동작 추종 정책을 K1에 적용하고, 그 위에 입력을 세 단계로 넓혔습니다.</p><p lang="en">Adapted an NVIDIA SONIC-style universal motion tracker to K1, then widened its input in three steps.</p>
+<ol class="steps">
+<li><b lang="ko">① 전신 텔레옵</b><b lang="en">① Whole-body teleop</b><span lang="ko">카메라 영상 → 사람 자세 추정 → SONIC → K1</span><span lang="en">Camera → human pose → SONIC → K1</span></li>
+<li><b lang="ko">② 온디바이스 텔레옵</b><b lang="en">② On-device teleop</b><span lang="ko">PC 없이 로봇 혼자: 머리 RealSense + Jetson Orin NX에서 자세 추정 → 상체 따라하기. <b>실기 동작</b></span><span lang="en">No PC: head RealSense + pose estimation on Jetson Orin NX → upper-body mimicry. <b>Runs on hardware</b></span></li>
+<li><b lang="ko">③ VLA</b><b lang="en">③ VLA</b><span lang="ko">GR00T를 SONIC 위에 얹어, 로봇 카메라 영상을 보고 다음 동작을 고르게 함</span><span lang="en">GR00T on top of SONIC picks the next motion from the robot camera</span></li>
+</ol>
+<div class="result"><b><span lang="ko">결과</span><span lang="en">Result</span></b><span lang="ko">온디바이스 텔레옵 실기: 30 Hz · 프레임당 약 11 ms · 사람 검출 98.5 % · VLA 시뮬레이션 첫 평가 12/28 성공</span><span lang="en">On-device teleop on hardware: 30 Hz · ~11 ms per frame · 98.5 % detection · first simulated VLA evaluation 12/28</span></div>
+</div>
+<div class="media"><div class="slot big"><span lang="ko">[ 온디바이스 텔레옵 실기 ]</span><span lang="en">[ On-device teleop · real ]</span></div><div class="slot"><span lang="ko">[ 전신 텔레옵 ]</span><span lang="en">[ Whole-body teleop ]</span></div><div class="slot"><span lang="ko">[ VLA 시뮬레이션 ]</span><span lang="en">[ VLA · sim ]</span></div></div>
+<div class="cases"><h4><span lang="ko">문제와 해결 기록</span><span lang="en">Problems &amp; how I solved them</span></h4><div class="case-grid">
+<div class="case"><h5><i>01</i><span lang="ko">똑바로 선 사람이 골반을 내민 자세로 보인다</span><span lang="en">An upright person looks hips-forward</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">카메라 텔레옵 화면에서 똑바로 선 사람의 골반이 앞으로 나와 보였습니다.</dd><dd lang="en">In the camera teleop view, an upright person appeared with the pelvis pushed forward.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">녹화 영상으로 원인을 나눠 봤습니다. 추정 골반은 발목–목 선보다 약 7 cm 앞이었는데, 엉덩이 관절 회전만 0으로 두면 1.3 cm로 줄었고 척추나 무릎은 거의 영향이 없었습니다. 자세 추정기가 엉덩이 회전을 잘못 예측하는 것이 주원인이었습니다.</dd><dd lang="en">Decomposed it on a recording: the estimated pelvis sat ~7 cm ahead of the ankle–neck line; zeroing only the hip rotations cut that to 1.3 cm, while spine or knees barely mattered. The pose estimator's hip rotation was the main cause.</dd><dt><span lang="ko">판단</span><span lang="en">Takeaway</span></dt><dd lang="ko">확인되지 않은 수정(초점거리 보정 등)을 해결책으로 단정하지 않고, 같은 입력으로 비교할 실험을 다음 단계로 남겼습니다.</dd><dd lang="en">Did not claim unverified fixes such as focal-length calibration; left a same-input comparison as the next step.</dd></dl></div><div class="case"><h5><i>02</i><span lang="ko">카메라 처리가 느리다</span><span lang="en">The camera path is too slow</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">텔레옵 반응이 늦었습니다.</dd><dd lang="en">Teleop felt laggy.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">카메라 처리 경로를 고정 버퍼와 CUDA Graphs로 바꿨고, 같은 녹화 입력에서 결과가 같음을 확인한 뒤 기본값으로 켰습니다. 처리 시간이 평균 52 → 35 ms로 줄었습니다.</dd><dd lang="en">Rebuilt the camera path with fixed buffers and CUDA Graphs, verified identical output on the same recorded input, then made it default: mean 52 → 35 ms.</dd></dl></div><div class="case"><h5><i>03</i><span lang="ko">로봇 컴퓨터 안에서 실시간으로</span><span lang="en">Real time on the robot's own computer</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">PC 없이 로봇의 Jetson Orin NX에서 카메라 → 자세 추정 → 제어까지 30 Hz로 돌려야 했습니다.</dd><dd lang="en">Camera → pose → control had to run at 30 Hz on the robot's Jetson Orin NX, without a PC.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">자세 추정 모델을 TensorRT로 바꿔 3.46 ms로 줄였고, 뎁스 축소 처리가 Orin CPU에서 20 ms 걸리던 것을 정수 합으로 바꿔 2 ms로 줄였습니다. 실사람 기준 프레임당 10.9 ms, 사람 검출 98.5 %입니다.</dd><dd lang="en">Moved pose estimation to TensorRT (3.46 ms) and cut a 20 ms depth downsampling step on the Orin CPU to 2 ms with integer sums. With a real person: 10.9 ms per frame, 98.5 % detection.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">제어를 해제하는 순간 자세가 한 번에 바뀌던 문제는 3초에 걸쳐 차렷 자세로 옮긴 뒤 해제하도록 바꿨고(실기 검증 전), 추적 상태를 몸통 LED로 표시하게 했습니다.</dd><dd lang="en">Releasing control used to snap the pose; it now eases to a neutral pose over 3 s before disarming (not yet verified on hardware), and the torso LED shows the tracking state.</dd></dl></div><div class="case"><h5><i>04</i><span lang="ko">VLA의 행동은 무엇으로 표현하나</span><span lang="en">What does the VLA output?</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">VLA가 관절을 직접 내면 너무 어렵기 때문에, SONIC이 이해하는 동작 표현으로 내도록 해야 했습니다. 그런데 시뮬레이션 데이터에는 그 표현값이 없었습니다.</dd><dd lang="en">Outputting raw joints is too hard for a VLA, so it should output SONIC's motion representation, but the simulated data did not contain it.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">기록된 동작에서 SONIC 잠재값을 역산해 행동 라벨로 썼고, 원래 값과 99.65 % 일치했습니다.</dd><dd lang="en">Recovered SONIC latent tokens from recorded motion as action labels, matching the originals at 99.65 %.</dd></dl></div><div class="case"><h5><i>05</i><span lang="ko">상자를 들고 걷다 떨어뜨린다</span><span lang="en">The box drops while walking</span></h5><dl><dt><span lang="ko">문제</span><span lang="en">Problem</span></dt><dd lang="ko">VLA용 상자 운반 데이터를 만들 때, 상자를 들고 1.86 m 걸은 뒤 떨어뜨렸습니다.</dd><dd lang="en">Generating box-carry data for the VLA, the robot lifted the box but dropped it after 1.86 m.</dd><dt><span lang="ko">원인</span><span lang="en">Cause</span></dt><dd lang="ko">SONIC이 손목 좌우 수정을 20~25 %만, 늦게 반영했고, 주먹 손 두 점으로 집어 상자가 진자처럼 흔들렸습니다.</dd><dd lang="en">SONIC applied only 20–25 % of lateral wrist corrections, late, and a two-point fist grip let the box swing like a pendulum.</dd><dt><span lang="ko">해결</span><span lang="en">Solution</span></dt><dd lang="ko">먼저 성공 가능한 과제(책상 위 컵 쓸기)로 바꿔 데이터 21/24 성공을 얻었습니다. 첫 VLA 평가(12/28)에서 오른쪽 동작이 실패한 원인을 데이터 수(14개)와 불균형으로 보고, 균형 잡힌 데이터 360회를 만들어 다시 학습할 예정입니다.</dd><dd lang="en">Switched to a feasible task first (sweeping a cup off a table), reaching 21/24 successful episodes. The first VLA evaluation (12/28) failed on right-side motions, traced to only 14 episodes and imbalance; next: retraining on 360 balanced episodes.</dd></dl></div>
+</div></div></article>
   </section>
+
   <!-- ===== CONTACT ===== -->
   <section class="sec contact" id="contact">
     <div class="sec-head"><div class="n">C</div><h2><span lang="ko">연락처</span><span lang="en">Contact</span></h2></div>
