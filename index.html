@@ -241,19 +241,19 @@ ol.steps li > b{display:block;font:400 18px/1.2 var(--head);margin-bottom:6px}
         <p class="hook" lang="en">No box position given: the robot sees it with its head depth camera and jumps on.</p>
         <dl class="pas">
           <dt><span lang="ko">문제</span><span lang="en">Problem</span></dt>
-          <dd lang="ko">실제 로봇은 박스의 위치·높이를 모르고 깊이 영상만 받습니다. 실제 카메라 영상에는 잡음과 빈 구멍이 있고, 점프 중에는 영상이 끊기기도 합니다.</dd>
+          <dd lang="ko">실제 로봇은 박스의 위치·높이를 모르고 뎁스 영상만 받습니다. 실제 카메라 영상에는 잡음과 빈 구멍이 있고, 점프 중에는 영상이 끊기기도 합니다.</dd>
           <dd lang="en">On hardware the robot knows nothing about the box except a depth image, which is noisy, has holes, and can drop out mid-jump.</dd>
           <dt><span lang="ko">방법</span><span lang="en">Approach</span></dt>
-          <dd lang="ko">박스 정보를 다 아는 선생 정책을 먼저 학습 → 깊이 영상만 받는 학생 정책으로 증류. 시뮬레이션 깊이 영상에 실제 카메라 같은 잡음·결측을 넣고, 박스 크기·위치를 무작위로 바꿈</dd>
+          <dd lang="ko">박스 정보를 다 아는 선생 정책을 먼저 학습 → 뎁스 영상만 받는 학생 정책으로 증류. 시뮬레이션 뎁스 영상에 실제 카메라 같은 잡음·결측을 넣고, 박스 크기·위치를 무작위로 바꿈</dd>
           <dd lang="en">Train a privileged teacher, then distill into a depth-only student. Add realistic noise and dropout to simulated depth, and randomize box size and placement</dd>
           <dt><span lang="ko">결과</span><span lang="en">Result</span></dt>
-          <dd lang="ko"><b>실제 로봇이 깊이 영상만으로 박스에 올라가는 데 성공</b> · 실기 기록과 시뮬레이션의 이륙·착지 자세를 비교해 남은 차이 원인 분석</dd>
+          <dd lang="ko"><b>실제 로봇이 뎁스 영상만으로 박스에 올라가는 데 성공</b> · 실기 기록과 시뮬레이션의 이륙·착지 자세를 비교해 남은 차이 원인 분석</dd>
           <dd lang="en"><b>Real robot jumps onto the box from depth alone</b> · compared take-off and landing against simulation to locate the remaining gap</dd>
         </dl>
       </div>
       <div class="media">
         <div class="slot big"><span lang="ko">[ 박스 점프 실기 ]</span><span lang="en">[ Box jump · real ]</span></div>
-        <div class="slot"><span lang="ko">[ 로봇이 보는 깊이 영상 ]</span><span lang="en">[ Robot depth view ]</span></div>
+        <div class="slot"><span lang="ko">[ 로봇이 보는 뎁스 영상 ]</span><span lang="en">[ Robot depth view ]</span></div>
         <div class="slot"><span lang="ko">[ 시뮬레이션 ]</span><span lang="en">[ Simulation ]</span></div>
       </div>
     </article>
